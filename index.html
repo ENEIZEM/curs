@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fa">
+  <meta name="description" content="Интерактивный учебный курс по сборке персонального компьютера: компоненты, совместимость, сборка и первый запуск.">
+  <title>Сборка персонального компьютера — учебный курс</title>
+  <link rel="stylesheet" href="css/course.css">
+</head>
+<body data-view="course">
+  <header class="topbar">
+    <a class="course-title" href="index.html">
+      <span class="course-label">Электронный учебный курс</span>
+      <strong>Сборка персонального компьютера</strong>
+    </a>
+    <div class="topbar-progress" aria-live="polite">
+      <div class="topbar-progress-copy"><span id="top-progress-text">Прогресс изучения</span><strong id="top-progress-percent">0%</strong></div>
+      <div class="progress-track"><span id="top-progress-fill"></span></div>
+    </div>
+    <button id="contents-open" class="button button-quiet" type="button" aria-controls="lesson-nav" aria-expanded="true">Содержание</button>
+  </header>
+
+  <nav class="module-steps" id="module-steps" aria-label="Этапы курса"></nav>
+
+  <div class="course-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-heading">
+        <div>
+          <h2>Содержание</h2>
+          <p>Выберите тему или урок</p>
+        </div>
+        <span class="sidebar-count" id="sidebar-count">26 уроков</span>
+      </div>
+      <nav id="lesson-nav" class="lesson-nav" aria-label="Уроки курса"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="lesson-toolbar">
+        <p id="breadcrumb">Введение</p>
+        <span id="slide-count">Урок 1 из 26</span>
+      </div>
+      <article class="lesson-content" id="content" tabindex="-1">
+        <h1>Сборка персонального компьютера</h1>
+        <p>Курс загружается…</p>
+      </article>
+    </main>
+  </div>
+
+  <footer class="player">
+    <button id="previous" class="button button-secondary" type="button" disabled>← Назад</button>
+    <div class="footer-progress">
+      <div class="footer-progress-copy"><span id="progress-title">Введение</span><strong id="progress-pct">0%</strong></div>
+      <div class="progress-track"><span id="progress-fill"></span></div>
+      <span class="gate-hint" id="gate-hint" aria-live="polite"></span>
+    </div>
+    <button id="next" class="button button-primary" type="button">Далее →</button>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script src="js/course.js"></script>
+</body>
+</html>
