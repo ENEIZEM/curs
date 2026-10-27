@@ -1,9 +1,63 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101313"><meta name="description" content="Интерактивный учебный курс по сборке персонального компьютера"><title>ASSEMBLY / FIELD MANUAL</title><link rel="stylesheet" href="css/course.css"></head><body data-view="course"><div class="shell">
-<header class="top"><a class="brand" href="index.html"><span class="emblem"><i></i><i></i><i></i><i></i></span><span><b>ASSEMBLY</b><small>FIELD MANUAL <em>/ 01</em></small></span></a><span class="sep"></span><div class="course-name"><small>ЭЛЕКТРОННЫЙ УЧЕБНЫЙ КУРС</small><strong>Сборка персонального компьютера</strong></div><span class="grow"></span><div class="live"><i></i> WORKBENCH READY</div><button class="help" id="help" aria-label="Справка">?</button></header>
-<div class="layout"><aside class="rail"><div class="rail-title">НАВИГАЦИЯ <em>//</em></div><nav class="modules" id="module-nav"></nav><div class="meterbox"><small>ПРОХОЖДЕНИЕ</small><b id="rail-pct">00<em>%</em></b><span class="track"><i id="rail-fill"></i></span><small id="rail-count">01 / 26 FRAMES</small></div></aside>
-<main class="main"><div class="mainbar"><span>ASSEMBLY <em>/</em> <b id="module-label">START HERE</b></span><small id="frame-label">FRAME 01 — 26</small></div><div class="stage"><i class="corner a"></i><i class="corner b"></i><article class="content" id="content"></article></div><div class="stage-note"><span>↳</span><small id="note">Используйте стрелки или нижнюю панель для перехода.</small><kbd>←</kbd><kbd>→</kbd><small>НАВИГАЦИЯ</small></div></main>
-<aside class="inspect"><div class="inspect-title">MODULE DATA <i></i></div><small>ТЕКУЩИЙ МОДУЛЬ</small><b id="module-no" class="big">00</b><h2 id="module-title">Старт</h2><p id="module-desc">Вводные материалы.</p><hr><small>КОМПОНЕНТЫ В ФОКУСЕ</small><div id="focus-tags"></div><hr><small>ПРИНЦИП КУРСА</small><div class="principle"><b>◈</b><span><strong>Сначала совместимость</strong><small>Затем монтаж и запуск</small></span></div><div class="inspect-foot">■ ASSEMBLY LAB <span>v1.0</span></div></aside></div>
-<footer class="player"><button id="contents-open" class="contents"><span class="hamb"><i></i><i></i><i></i></span>СОДЕРЖАНИЕ <small>07</small></button><div class="progress"><div><small id="progress-title">START / Введение</small><b id="progress-pct">00%</b></div><span class="track"><i id="progress-fill"></i></span></div><div class="controls"><button id="previous" class="nav">← <span>НАЗАД</span></button><button id="next" class="nav next"><span>ДАЛЕЕ</span> ↗</button></div></footer><div class="stamp">AFM <i>•</i> DESIGNED FOR BUILDERS <i>•</i> COURSE PLAYER</div></div>
-<div id="shade" class="shade" hidden></div><aside id="drawer" class="drawer" aria-hidden="true"><header><div><small>COURSE INDEX / 07 MODULES</small><h2>Содержание</h2></div><button id="drawer-close" class="close">×</button></header><p>Выберите раздел или слайд. Все материалы открываются локально.</p><div id="drawer-list" class="drawer-list"></div><footer>● LOCAL SESSION <span id="drawer-count">1 / 26</span></footer></aside>
-<div id="modal-shade" class="shade hidden" hidden><section class="dialog"><header><small class="eyebrow">ASSEMBLY / QUICK REFERENCE</small><button id="modal-close" class="close">×</button></header><h2>Как работать с курсом</h2><p>Переходите стрелками или используйте содержание. На интерактивных слайдах нажимайте на компоненты и отмечайте чек-листы. Все элементы работают локально.</p><button id="modal-ok" class="btn hot">ПОНЯТНО ↗</button></section></div><script src="js/course.js"></script></body></html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fa">
+  <meta name="description" content="Интерактивный учебный курс по сборке персонального компьютера: компоненты, совместимость, сборка и первый запуск.">
+  <title>Сборка персонального компьютера — учебный курс</title>
+  <link rel="stylesheet" href="css/course.css">
+</head>
+<body data-view="course">
+  <header class="topbar">
+    <a class="course-title" href="index.html">
+      <span class="course-label">Электронный учебный курс</span>
+      <strong>Сборка персонального компьютера</strong>
+    </a>
+    <div class="topbar-progress" aria-live="polite">
+      <div class="topbar-progress-copy"><span id="top-progress-text">Прогресс изучения</span><strong id="top-progress-percent">0%</strong></div>
+      <div class="progress-track"><span id="top-progress-fill"></span></div>
+    </div>
+    <button id="contents-open" class="button button-quiet" type="button" aria-controls="lesson-nav" aria-expanded="true">Содержание</button>
+  </header>
+
+  <nav class="module-steps" id="module-steps" aria-label="Этапы курса"></nav>
+
+  <div class="course-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-heading">
+        <div>
+          <h2>Содержание</h2>
+          <p>Выберите тему или урок</p>
+        </div>
+        <span class="sidebar-count" id="sidebar-count">26 уроков</span>
+      </div>
+      <nav id="lesson-nav" class="lesson-nav" aria-label="Уроки курса"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="lesson-toolbar">
+        <p id="breadcrumb">Введение</p>
+        <span id="slide-count">Урок 1 из 26</span>
+      </div>
+      <article class="lesson-content" id="content" tabindex="-1">
+        <h1>Сборка персонального компьютера</h1>
+        <p>Курс загружается…</p>
+      </article>
+    </main>
+  </div>
+
+  <footer class="player">
+    <button id="previous" class="button button-secondary" type="button" disabled>← Назад</button>
+    <div class="footer-progress">
+      <div class="footer-progress-copy"><span id="progress-title">Введение</span><strong id="progress-pct">0%</strong></div>
+      <div class="progress-track"><span id="progress-fill"></span></div>
+      <span class="gate-hint" id="gate-hint" aria-live="polite"></span>
+    </div>
+    <button id="next" class="button button-primary" type="button">Далее →</button>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script src="js/course.js"></script>
+</body>
+</html>
