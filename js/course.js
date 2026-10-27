@@ -215,7 +215,7 @@
         orderRow("order-gpu","Установить видеокарту и подключить требуемое питание","5") +
         '</div><div class="task-actions"><button class="button button-primary" data-check-order>Проверить последовательность</button></div><div class="feedback" id="q24-feedback"></div>';
     } else if (i === 25) {
-      html = '<div class="interaction"><h2 class="interaction-title">Назовите два условия совместимости</h2><p class="interaction-instruction">Напишите минимум две проверки, которые нужно выполнить перед монтажом комплектующих. Ответ своими словами.</p><label class="field" for="short-response"><span>Ваш ответ</span><textarea class="short-answer" id="short-response" rows="4" placeholder="Например: проверить сокет процессора и…"></textarea></label><div class="task-actions"><button class="button button-primary" data-check-short>Проверить ответ</button></div><div class="feedback" id="q25-feedback"></div><div class="score-row"><span>Для самопроверки перечислите два или более пункта:</span><strong>сокет · DDR · размеры · питание</strong></div>';
+      html = '<div class="interaction"><h2 class="interaction-title">Назовите два условия совместимости</h2><p class="interaction-instruction">Напишите минимум две проверки, которые нужно выполнить перед монтажом комплектующих. Ответ своими словами.</p><label class="field" for="short-response"><span>Ваш ответ</span><textarea class="short-answer" id="short-response" rows="4" placeholder="Например: проверить сокет процессора и…"></textarea></label><div class="task-actions"><button class="button button-primary" data-check-short>Проверить ответ</button></div><div class="feedback" id="q25-feedback"></div><div class="score-row"><span>Для самопроверки перечислите два или более пункта:</span><strong>сокет · DDR · размеры · питание</strong></div><div class="score-row" id="final-score"><span>Результат появится после выполнения заданий.</span><strong>0 / 4</strong></div>';
     }
     return frame(i, html);
   }
@@ -264,6 +264,7 @@
   function renderCourse() {
     var s = slides[state.at], sec = sections[s.section];
     $("#content").innerHTML = renderSlide(state.at);
+    updateTestScore();
     $("#breadcrumb").textContent = sec.title;
     $("#slide-count").textContent = "Урок " + (state.at + 1) + " из " + slides.length;
     $("#progress-title").textContent = s.title;
@@ -310,6 +311,15 @@
     el.textContent = message;
     el.classList.toggle("correct", !!ok);
     el.classList.toggle("incorrect", ok === false);
+  }
+
+  function updateTestScore() {
+    var el = $("#final-score");
+    if (!el) return;
+    var keys = ["q22","q23","q24","q25"];
+    var answered = keys.filter(function(k){return Object.prototype.hasOwnProperty.call(state.test,k);});
+    var correct = answered.filter(function(k){return state.test[k] === true;}).length;
+    el.innerHTML = "<span>Проверено заданий: " + answered.length + " из 4.</span><strong>Верных: " + correct + " из " + answered.length + "</strong>";
   }
 
   function handleCheckChange(checkbox) {
@@ -420,14 +430,14 @@
         else if (el === button && !correct) el.classList.add("incorrect");
       });
       setFeedback("q22-feedback", correct ? "Правильно. Сокет и официальный список поддержки CPU — первые проверки совместимости процессора и платы." : "Неверно. Начните с сокета и списка поддержки процессоров конкретной материнской платы.", correct);
-      state.test.q22 = correct;
+      state.test.q22 = correct; updateTestScore();
       return;
     }
     if (d.checkMatch !== undefined) {
       var values = [$("#match-cpu").value,$("#match-ram").value,$("#match-ssd").value,$("#match-gpu").value];
       var okmatch = values.join(",") === "0,2,1,3";
       setFeedback("q23-feedback", okmatch ? "Все четыре пары верны. Процессор выполняет инструкции, RAM хранит рабочие данные, SSD — файлы, а GPU обрабатывает графику." : "Есть ошибки. Проверьте роли компонентов и попробуйте ещё раз.", okmatch);
-      state.test.q23 = okmatch;
+      state.test.q23 = okmatch; updateTestScore();
       return;
     }
     if (d.checkOrder !== undefined) {
@@ -436,7 +446,7 @@
       var uniq = new Set(vals).size === 5 && vals.every(Boolean);
       var okorder = vals.join(",") === "1,2,3,4,5";
       setFeedback("q24-feedback", !uniq ? "Укажите для каждого шага свой номер от 1 до 5." : okorder ? "Последовательность верна для этого учебного сценария. Для конкретного корпуса учитывайте инструкции производителя." : "Не совсем. Сначала удобнее установить CPU, память и M.2 на плату, затем закрепить плату и установить видеокарту.", okorder);
-      state.test.q24 = okorder;
+      state.test.q24 = okorder; updateTestScore();
       return;
     }
     if (d.checkShort !== undefined) {
@@ -451,7 +461,7 @@
       ].filter(Boolean).length;
       var pass = checks >= 2;
       setFeedback("q25-feedback", pass ? "Ответ содержит " + checks + " разных тематических признака. Сверьте формулировку с чек-листом: сокет/поддержка CPU, поколение памяти, размеры и питание." : "Пока найдено меньше двух разных условий. Назовите, например, сокет и поколение DDR, или размеры корпуса и требования к питанию.", pass);
-      state.test.q25 = pass;
+      state.test.q25 = pass; updateTestScore();
       return;
     }
   }
@@ -610,6 +620,8 @@
       $("#publish-format-feedback").textContent = el.value==="scorm12" ? "SCORM требует корректной упаковки ресурсов, манифеста и связи с LMS API. Эта страница не публикует готовый пакет." : "Локальный вариант должен содержать HTML, CSS, JavaScript и все используемые изображения.";
     }
   }
+
+  if (document.body.dataset.view === "lab") document.title = "Лабораторная работа " + Number(document.body.dataset.lab || "1") + " — Сборка персонального компьютера";
 
   if (document.body.dataset.view === "lab") {
     labId = Number(document.body.dataset.lab || "1");

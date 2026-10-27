@@ -1,9 +1,10 @@
-# Visual system — Assembly Field Manual
+## Визуальная система учебного курса
 
-- Graphite / blackened steel base: `#101313`, `#171c1c`.
-- Warm orange/copper signal `#ff703b` for actions, selection and alert states.
-- Circuit-board green `#77d2a0` for installed/verified states.
-- Amber `#ffc16c` for cautions.
-- System sans for learning copy; system monospace for technical labels. No remote font requests.
-- Chassis cutaway, motherboard trace motifs, technical labels, calibrated linework and compact industrial controls.
-- Illustrations are original inline SVG/CSS. No external image or JS dependencies.
+- Основная тема — белая и светло-серая, без тёмной панели управления.
+- Типографика: системный шрифт без засечек; базовый текст 17 px, вводный абзац 19 px, крупный заголовок.
+- Навигация: этапы курса сверху, дерево разделов слева, переходы внизу.
+- Центральная область показывает объяснение, схему или задание; инструкция всегда видна.
+- Акцент — тёплый медно-оранжевый; вспомогательный зелёный напоминает оттенок печатной платы.
+- Декоративные английские маркировки, логотипы и подписи «готовности» не используются.
+- Интерактивные задания сопровождаются обратной связью с объяснением причины.
+- Схемы условны и не заменяют инструкции производителя.
