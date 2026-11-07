@@ -107,9 +107,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .lesson-content ul, .lesson-content ol { padding-left: 25px; }
 .lesson-content li { padding-left: 3px; margin: 6px 0; }
 .lesson-content strong { color: #202b35; }
-.instruction { border-left: 4px solid var(--accent); background: #fff6f2; padding: 13px 17px; border-radius: 0 8px 8px 0; margin: 0 0 25px; }
-.instruction strong { display: block; color: #8d3d22; font-size: 14px; margin-bottom: 2px; }
-.instruction p { font-size: 15px; line-height: 1.5; margin: 0; color: #4b535b; }
 .content-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 20px 0; }
 .content-card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
 .content-card .card-index { display: block; font-size: 12px; color: var(--pcb); font-weight: 750; margin-bottom: 7px; }
@@ -243,3 +240,67 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+/* Минималистичная подача: без повторяющихся инструкционных плашек. */
+.lesson-content { box-shadow: 0 5px 20px rgba(29,42,54,.045); }
+.lesson-intro { margin-bottom: 30px; }
+.multi-options { display: grid; gap: 10px; margin: 16px 0; }
+.multi-option { display: flex; align-items: flex-start; gap: 12px; padding: 13px 15px; border: 1px solid var(--line); border-radius: 9px; background: #fff; cursor: pointer; }
+.multi-option:has(input:checked) { border-color: var(--pcb); background: var(--pcb-pale); }
+.multi-option input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--pcb); }
+.multi-option span, .multi-option small { display: block; }
+.multi-option strong { font-size: 15px; }
+.multi-option small { margin-top: 3px; color: var(--muted); font-size: 13px; }
+
+.pc-build-boss { margin: 30px 0 10px; border: 1px solid var(--line); border-radius: 14px; background: #fbfcfb; overflow: hidden; }
+.boss-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; padding: 20px 22px 16px; border-bottom: 1px solid var(--line); background: #fff; }
+.boss-header h2 { margin: 4px 0 3px !important; font-size: 25px !important; letter-spacing: -.035em; }
+.boss-header p { margin: 0 !important; color: var(--muted); font-size: 14px; }
+.boss-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .12em; color: var(--pcb); }
+.boss-counter { padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 11px; font-weight: 750; white-space: nowrap; }
+.boss-progress { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 7px; padding: 12px 16px; background: #fff; border-bottom: 1px solid var(--line); }
+.boss-step { display: flex; align-items: center; gap: 7px; min-width: 0; padding: 8px 7px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted); text-align: left; }
+.boss-step span { display: grid; flex: 0 0 24px; width: 24px; height: 24px; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; font-size: 11px; font-weight: 750; }
+.boss-step strong { min-width: 0; font-size: 11px; line-height: 1.25; font-weight: 650; }
+.boss-step.active { color: var(--pcb); background: var(--pcb-pale); border-color: #c8dfd0; }
+.boss-step.active span { border-color: var(--pcb); background: #fff; }
+.boss-step:disabled { opacity: .48; cursor: not-allowed; }
+.boss-layout { display: grid; grid-template-columns: minmax(0,1.12fr) minmax(290px,.88fr); gap: 16px; padding: 16px; align-items: start; }
+.boss-visual { min-width: 0; }
+.boss-schematic { margin: 0; padding: 10px; border: 1px solid var(--line); border-radius: 11px; background: #fff; }
+.boss-schematic-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; padding: 2px 5px 9px; }
+.boss-schematic-head strong { font-size: 13px; }
+.boss-schematic-head span { color: var(--muted); font-size: 11px; }
+.boss-schematic svg { display: block; width: 100%; height: auto; }
+.boss-schematic figcaption { margin: 8px 4px 2px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+.boss-part { opacity: .42; transition: opacity .18s ease; }
+.boss-part.installed { opacity: 1; }
+.boss-wire { fill: none; stroke: #c5d0c8; stroke-width: 5; stroke-dasharray: 7 6; stroke-linecap: round; }
+.boss-wire.connected { stroke: var(--accent); stroke-dasharray: none; }
+.boss-controls { min-width: 0; padding: 17px; border: 1px solid var(--line); border-radius: 11px; background: #fff; }
+.boss-controls h2 { margin: 0 0 8px !important; font-size: 20px !important; }
+.boss-controls > p { color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
+.boss-field { display: flex; flex-direction: column; gap: 6px; margin: 13px 0; }
+.boss-field > span { color: var(--ink-soft); font-size: 13px; font-weight: 700; }
+.boss-field select { width: 100%; min-height: 43px; padding: 8px 10px; border: 1px solid var(--line-strong); border-radius: 8px; background: #fff; color: var(--ink); }
+.boss-field small { color: var(--muted); font-size: 11px; line-height: 1.4; }
+.boss-spec { padding: 11px 12px; margin: 13px 0; border-radius: 8px; background: #f3f7f4; color: var(--ink-soft); font-size: 13px; line-height: 1.5; }
+.boss-controls .button { width: 100%; margin-top: 5px; }
+.boss-feedback { padding: 11px 12px; margin-top: 13px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink-soft); background: var(--paper-soft); font-size: 13px; line-height: 1.5; }
+.boss-feedback.success { border-color: #bcdcc9; background: var(--success-pale); color: var(--success); }
+.boss-feedback.error { border-color: #edc6c2; background: var(--error-pale); color: var(--error); }
+.boss-footnote { margin: 14px 0 0 !important; color: var(--muted) !important; font-size: 11px !important; line-height: 1.5 !important; }
+.boss-cable-list { display: grid; gap: 8px; margin: 14px 0; }
+.boss-cable { display: flex; align-items: flex-start; gap: 10px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.boss-cable:has(input:checked) { border-color: var(--pcb); background: var(--pcb-pale); }
+.boss-cable input { flex: 0 0 auto; width: 17px; height: 17px; margin: 2px 0 0; accent-color: var(--pcb); }
+.boss-cable strong, .boss-cable small { display: block; }
+.boss-cable strong { font-size: 13px; }
+.boss-cable small { margin-top: 2px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+.boss-muted { margin: 5px 0; color: var(--muted); font-size: 12px; }
+.boss-summary { display: grid; gap: 8px; margin: 14px 0; }
+.boss-summary div { display: flex; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.boss-summary span { color: var(--muted); font-size: 12px; }
+.boss-summary strong { max-width: 65%; text-align: right; font-size: 12px; }
+.boss-success { padding: 11px 12px; border-radius: 8px; color: var(--success) !important; background: var(--success-pale); font-weight: 700; }
+@media (max-width: 900px) { .boss-layout { grid-template-columns: 1fr; } .boss-visual { max-width: 680px; width: 100%; margin: 0 auto; } }
+@media (max-width: 600px) { .boss-header { padding: 16px; } .boss-progress { grid-template-columns: repeat(5,minmax(82px,1fr)); overflow-x: auto; } .boss-step { flex-direction: column; align-items: flex-start; } .boss-layout { padding: 10px; } .boss-controls { padding: 13px; } .boss-schematic { padding: 5px; } }
