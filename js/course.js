@@ -2,7 +2,7 @@
   "use strict";
 
   var $ = function (selector, root) { return (root || document).querySelector(selector); };
-  var $ = function (selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); };
+  var $$ = function (selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); };
   function shuffled(items) {
     var result = items.slice();
     for (var i = result.length - 1; i > 0; i -= 1) {
