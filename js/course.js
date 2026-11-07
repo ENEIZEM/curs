@@ -50,7 +50,7 @@
     { title: "Первое включение", section: 5, intro: "Перед включением подключите монитор, клавиатуру и кабель питания. Если установлена дискретная видеокарта, монитор обычно подключают к видеовыходу самой видеокарты.", task: "Выберите правильный видеовыход для компьютера с установленной дискретной видеокартой.", type: "first-boot" },
     { title: "Что происходит при POST", section: 5, intro: "POST — начальная самопроверка компьютера при включении. Индикаторы платы и звуковые сигналы могут помочь понять, на каком этапе возникла проблема.", task: "Выберите диагностический индикатор и посмотрите, какие проверки следует выполнить.", type: "post" },
     { title: "UEFI и поиск неисправностей", section: 5, intro: "UEFI позволяет проверить, обнаружены ли процессор, оперативная память и накопители. Если компьютер не запускается, проверяйте одну вероятную причину за раз.", task: "Прочитайте диагностическую ситуацию и выберите следующий разумный шаг.", type: "troubleshooting" },
-    { title: "Задание 1. Выбор ответа", section: 6, intro: "Проверьте ключевые понятия курса. Выберите один правильный вариант и прочитайте объяснение после проверки.", task: "Ответьте на вопрос о совместимости процессора и материнской платы.", type: "quiz-choice" },
+    { title: "Задание 1. Расчёт мощности", section: 6, intro: "Проверьте понимание подбора блока питания и расчёта резерва мощности.", task: "Выберите номинал БП по данным условия.", type: "quiz-choice" },
     { title: "Задание 2. Сопоставление", section: 6, intro: "Компоненты выполняют разные функции. Для каждого элемента выберите подходящее описание.", task: "Сопоставьте все компоненты и их функции, затем нажмите «Проверить».", type: "quiz-match" },
     { title: "Задание 3. Порядок действий", section: 6, intro: "Последовательность сборки влияет на удобство и безопасность работы. Упорядочьте шаги так, чтобы сначала выполнить установку компонентов на плату, а затем монтаж в корпус.", task: "Укажите позицию каждого шага в правильной последовательности.", type: "quiz-order" },
     { title: "Задание 4. Передняя панель корпуса", section: 6, intro: "Разъёмы передней панели легко перепутать с разъёмами вентиляторов и USB. Здесь важно определить именно сигналы кнопок корпуса.", task: "Отметьте два соединения кнопок корпуса на колодке F_PANEL.", type: "quiz-front-panel" },
@@ -338,6 +338,7 @@
     var button = event.target.closest("button");
     if (!button) return;
     var d = button.dataset;
+    if (state.at === 26 && button.closest("#pc-build-boss") && window.PCBuildBoss && window.PCBuildBoss.handleClick(event)) return;
     if (button.id === "next") { if (!button.disabled) { state.at = Math.min(slides.length - 1, state.at + 1); renderCourse(); window.scrollTo(0,0); } return; }
     if (button.id === "previous") { state.at = Math.max(0, state.at - 1); renderCourse(); window.scrollTo(0,0); return; }
     if (button.id === "contents-open") {
@@ -465,6 +466,7 @@
     document.addEventListener("click", handleClick);
     document.addEventListener("change", function (event) {
       var target = event.target;
+      if (state.at === 26 && window.PCBuildBoss && window.PCBuildBoss.handleChange(event)) return;
       if (target.matches("[data-check]")) handleCheckChange(target);
     });
     document.addEventListener("keydown", function (event) {
