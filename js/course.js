@@ -201,27 +201,22 @@
         choiceButton("diag-1","Проверить подключение монитора и выбранный видеовыход.") + choiceButton("diag-2","Сразу разобрать блок питания.") + choiceButton("diag-3","Несколько раз быстро отключить питание.") +
         '</div><div class="feedback" id="diagnostic-feedback"></div><div class="callout"><strong>Безопасность.</strong> Если появился дым, запах перегрева или необычный звук, отключите питание и не продолжайте запуск до проверки оборудования.</div>';
     } else if (i === 22) {
-      html = '<div class="interaction"><h2 class="interaction-title">Какой параметр определяет физическую совместимость процессора с платой?</h2><p class="interaction-instruction">Выберите один ответ.</p><div class="answers">' +
-        quizChoice("q22",0,"Цвет и форма радиатора") + quizChoice("q22",1,"Сокет и подтверждённая поддержка процессора") + quizChoice("q22",2,"Ёмкость установленного SSD") + quizChoice("q22",3,"Число вентиляторов корпуса") +
-        '</div><div class="feedback" id="q22-feedback"></div></div>';
-    } else if (i === 23) {
-      html = '<div class="interaction"><h2 class="interaction-title">Сопоставьте компоненты и функции</h2><p class="interaction-instruction">Для каждого компонента выберите одну функцию. Затем нажмите «Проверить».</p><div class="match-list">' +
-        matchRow("match-cpu","Процессор",["Выполняет инструкции","Хранит файлы постоянно","Хранит данные работающих программ","Обрабатывает графику"]) +
-        matchRow("match-ram","Оперативная память",["Выполняет инструкции","Хранит файлы постоянно","Хранит данные работающих программ","Обрабатывает графику"]) +
-        matchRow("match-ssd","SSD",["Выполняет инструкции","Хранит файлы постоянно","Хранит данные работающих программ","Обрабатывает графику"]) +
-        matchRow("match-gpu","Видеокарта",["Выполняет инструкции","Хранит файлы постоянно","Хранит данные работающих программ","Обрабатывает графику"]) +
-        '</div><div class="task-actions"><button class="button button-primary" data-check-match>Проверить ответы</button></div><div class="feedback" id="q23-feedback"></div>';
-    } else if (i === 24) {
-      html = '<div class="interaction"><h2 class="interaction-title">Упорядочьте этапы сборки</h2><p class="interaction-instruction">Укажите порядковый номер каждого действия. Каждое число можно использовать только один раз.</p><div class="order-list">' +
-        orderRow("order-cpu","Установить процессор","1") +
-        orderRow("order-ram","Установить оперативную память","2") +
-        orderRow("order-m2","Установить накопитель M.2","3") +
-        orderRow("order-case","Закрепить материнскую плату в корпусе","4") +
-        orderRow("order-gpu","Установить видеокарту и подключить требуемое питание","5") +
-        '</div><div class="task-actions"><button class="button button-primary" data-check-order>Проверить последовательность</button></div><div class="feedback" id="q24-feedback"></div>';
-    } else if (i === 25) {
-      html = '<div class="interaction"><h2 class="interaction-title">Назовите два условия совместимости</h2><p class="interaction-instruction">Напишите минимум две проверки, которые нужно выполнить перед монтажом комплектующих. Ответ своими словами.</p><label class="field" for="short-response"><span>Ваш ответ</span><textarea class="short-answer" id="short-response" rows="4" placeholder="Например: проверить сокет процессора и…"></textarea></label><div class="task-actions"><button class="button button-primary" data-check-short>Проверить ответ</button></div><div class="feedback" id="q25-feedback"></div><div class="score-row"><span>Для самопроверки перечислите два или более пункта:</span><strong>сокет · DDR · размеры · питание</strong></div><div class="score-row" id="final-score"><span>Результат появится после выполнения заданий.</span><strong>0 / 4</strong></div>';
-    }
+      html = '<div class="interaction"><h2 class="interaction-title">Расчётная нагрузка системы — 500 Вт. В условии заложен запас 20%. Какой минимальный номинал блока питания соответствует расчёту?</h2><p class="interaction-instruction">Выберите один ответ: 500 × 1,2 = 600 Вт.</p><div class="answers">' + quizChoice("q22",0,"500 Вт") + quizChoice("q22",1,"600 Вт") + quizChoice("q22",2,"550 Вт") + quizChoice("q22",3,"450 Вт") + '</div><div class="feedback" id="q22-feedback"></div></div>';    } else if (i === 23) {
+      var matchRows = [{id:"cpu",label:"Процессор"},{id:"ram",label:"Оперативная память"},{id:"ssd",label:"SSD"},{id:"gpu",label:"Видеокарта"}];
+      var matchOptions = [{id:"instructions",label:"Выполняет инструкции программ"},{id:"volatile",label:"Хранит рабочие данные запущенных программ"},{id:"persistent",label:"Хранит файлы после выключения питания"},{id:"graphics",label:"Обрабатывает графику и вывод изображения"},{id:"power",label:"Преобразует и подаёт питание компонентам"}];
+      if (!state.matchLayout) state.matchLayout = { rows:shuffled(matchRows), options:shuffled(matchOptions) };
+      html = '<div class="interaction"><h2 class="interaction-title">Сопоставьте компоненты и функции</h2><p class="interaction-instruction">Каждой строке соответствует одна функция. Справа на один вариант больше; один вариант лишний.</p><div class="match-list">' + state.matchLayout.rows.map(function(row){return matchRow("match-"+row.id,row.label,state.matchLayout.options);}).join("") + '</div><div class="task-actions"><button class="button button-primary" data-check-match>Проверить ответы</button></div><div class="feedback" id="q23-feedback"></div>';    } else if (i === 24) {
+      var orderItems = [{id:"cpu",label:"Установить процессор на материнскую плату"},{id:"ram",label:"Установить оперативную память"},{id:"m2",label:"Установить накопитель M.2"},{id:"case",label:"Закрепить материнскую плату в корпусе"},{id:"gpu",label:"Установить видеокарту и подключить питание"}];
+      if (!state.orderLayout) state.orderLayout = shuffled(orderItems);
+      html = '<div class="interaction"><h2 class="interaction-title">Упорядочьте этапы сборки</h2><p class="interaction-instruction">Этапы показаны в случайном порядке. Назначьте каждому действию позицию от 1 до 5; каждое число используйте один раз.</p><div class="order-list">' + state.orderLayout.map(function(item){return orderRow("order-"+item.id,item.label);}).join("") + '</div><div class="task-actions"><button class="button button-primary" data-check-order>Проверить последовательность</button></div><div class="feedback" id="q24-feedback"></div>';    } else if (i === 25) {
+      html = '<div class="interaction"><h2 class="interaction-title">Какие два соединения относятся к кнопкам корпуса?</h2><p class="interaction-instruction">Отметьте ровно два варианта: они подключаются к F_PANEL.</p><div class="multi-options">' +
+        '<label class="multi-option"><input type="checkbox" data-front-panel="pwr"><span><strong>PWR_SW</strong><small>Кнопка включения компьютера</small></span></label>' +
+        '<label class="multi-option"><input type="checkbox" data-front-panel="reset"><span><strong>RESET_SW</strong><small>Кнопка перезагрузки</small></span></label>' +
+        '<label class="multi-option"><input type="checkbox" data-front-panel="fan"><span><strong>CPU_FAN</strong><small>Разъём вентилятора процессора</small></span></label>' +
+        '<label class="multi-option"><input type="checkbox" data-front-panel="usb"><span><strong>USB 3.x header</strong><small>Внутренний разъём USB корпуса</small></span></label>' +
+        '</div><div class="task-actions"><button class="button button-primary" data-check-front-panel>Проверить выбор</button></div><div class="feedback" id="q25-feedback"></div><div class="score-row" id="final-score"><span>Результат появится после выполнения заданий.</span><strong>0 / 4</strong></div></div>';
+    } else if (i === 26) {
+      html = window.PCBuildBoss ? window.PCBuildBoss.render() : '<div class="callout error">Симулятор сборки не загрузился. Обновите страницу.</div>';    }
     return frame(i, html);
   }
 
@@ -232,9 +227,9 @@
     return '<button type="button" class="button-choice" data-quiz="' + group + '" data-answer="' + index + '"><span class="choice-letter">' + String.fromCharCode(65 + index) + '</span><span>' + esc(label) + '</span></button>';
   }
   function matchRow(id,label,choices) {
-    return '<div class="match-row"><label for="' + id + '">' + esc(label) + '</label><select id="' + id + '" data-match="' + id + '">' + option("","Выберите функцию",true) + choices.map(function(c,i){return option(String(i),c,false)}).join("") + '</select></div>';
+    return '<div class="match-row"><label for="' + id + '">' + esc(label) + '</label><select id="' + id + '" data-match="' + id + '">' + option("","Выберите функцию",true) + choices.map(function(c){return option(c.id,c.label,false)}).join("") + '</select></div>';
   }
-  function orderRow(id,label,selected) {
+  function orderRow(id,label) {
     var nums = ['Выберите номер','1','2','3','4','5'];
     return '<div class="order-row"><label for="' + id + '">' + esc(label) + '</label><select id="' + id + '" data-order="' + id + '">' + nums.map(function(c,i){return option(i ? String(i) : "", c, i===0)}).join("") + '</select></div>';
   }
@@ -382,7 +377,8 @@
       return;
     }
     if (d.choice) {
-      if (d.choice.indexOf("m2-") === 0) setFeedback("memory-feedback", d.choice === "m2-2" ? "Верно. M.2 — это формат, а NVMe — протокол. Конкретная плата должна поддерживать выбранный интерфейс." : "Не совсем. M.2 не означает автоматически NVMe; нужно проверить интерфейс накопителя и возможности разъёма.", d.choice === "m2-2");
+      if (d.choice.indexOf("dual-") === 0) setFeedback("dual-feedback", d.choice === "dual-b" ? "Верно. Для этой учебной платы руководство рекомендует A2 и B2. У другой модели расположение слотов может отличаться." : "В условии сказано, что для двух модулей рекомендуются A2 и B2. Для реальной платы проверьте руководство.", d.choice === "dual-b");
+      else if (d.choice.indexOf("m2-") === 0) setFeedback("memory-feedback", d.choice === "m2-2" ? "Верно. M.2 — это формат, а NVMe — протокол. Конкретная плата должна поддерживать выбранный интерфейс." : "Не совсем. M.2 не означает автоматически NVMe; нужно проверить интерфейс накопителя и возможности разъёма.", d.choice === "m2-2");
       else if (d.choice.indexOf("fit-") === 0) setFeedback("fit-feedback", d.choice === "fit-yes" ? "Верно. Видеокарта длиной 340 мм превышает лимит корпуса 320 мм. Нужен другой корпус или более короткая карта." : "Проверьте размеры: 340 мм больше допустимых 320 мм. Стандарт слота не решает вопрос физической длины.", d.choice === "fit-yes");
       else if (d.choice.indexOf("gpu-slot-") === 0) setFeedback("gpu-feedback", d.choice === "gpu-slot-b" ? "Верно. Выберите подходящий PCI Express слот и сверьтесь с руководством платы." : "Это не тот разъём: DIMM предназначен для памяти, а M.2 — для совместимого накопителя.", d.choice === "gpu-slot-b");
       else if (d.choice.indexOf("display-") === 0) setFeedback("display-feedback", d.choice === "display-gpu" ? "Верно для системы с дискретной видеокартой: подключите монитор к видеовыходу установленной карты. Исключения зависят от конфигурации." : "Не всегда. Выходы материнской платы работают только если процессор и плата поддерживают вывод изображения через них.", d.choice === "display-gpu");
@@ -434,38 +430,32 @@
         if (Number(el.dataset.answer) === 1) el.classList.add("correct");
         else if (el === button && !correct) el.classList.add("incorrect");
       });
-      setFeedback("q22-feedback", correct ? "Правильно. Сокет и официальный список поддержки CPU — первые проверки совместимости процессора и платы." : "Неверно. Начните с сокета и списка поддержки процессоров конкретной материнской платы.", correct);
+      setFeedback("q22-feedback", correct ? "Верно. 500 Вт × 1,2 = 600 Вт. Это минимальный номинал по условию задачи; реальный выбор также зависит от качества БП, пиковых нагрузок и разъёмов." : "Проверьте расчёт: 500 Вт × 1,2 = 600 Вт. По условию нужен номинал не ниже этого значения.", correct);
       state.test.q22 = correct; updateTestScore();
       return;
     }
     if (d.checkMatch !== undefined) {
-      var values = [$("#match-cpu").value,$("#match-ram").value,$("#match-ssd").value,$("#match-gpu").value];
-      var okmatch = values.join(",") === "0,2,1,3";
+      var expected = {cpu:"instructions",ram:"volatile",ssd:"persistent",gpu:"graphics"};
+      var ids = Object.keys(expected), values = ids.map(function(id){return $("#match-"+id).value;});
+      var unique = values.every(Boolean) && new Set(values).size === values.length;
+      var okmatch = unique && ids.every(function(id){return $("#match-"+id).value === expected[id];});
       setFeedback("q23-feedback", okmatch ? "Все четыре пары верны. Процессор выполняет инструкции, RAM хранит рабочие данные, SSD — файлы, а GPU обрабатывает графику." : "Есть ошибки. Проверьте роли компонентов и попробуйте ещё раз.", okmatch);
       state.test.q23 = okmatch; updateTestScore();
       return;
     }
     if (d.checkOrder !== undefined) {
-      var ids = ["order-cpu","order-ram","order-m2","order-case","order-gpu"];
-      var vals = ids.map(function(id){return $("#"+id).value;});
-      var uniq = new Set(vals).size === 5 && vals.every(Boolean);
-      var okorder = vals.join(",") === "1,2,3,4,5";
-      setFeedback("q24-feedback", !uniq ? "Укажите для каждого шага свой номер от 1 до 5." : okorder ? "Последовательность верна для этого учебного сценария. Для конкретного корпуса учитывайте инструкции производителя." : "Не совсем. Сначала удобнее установить CPU, память и M.2 на плату, затем закрепить плату и установить видеокарту.", okorder);
+      var expected = {cpu:"1",ram:"2",m2:"3",case:"4",gpu:"5"};
+      var ids = Object.keys(expected), vals = ids.map(function(id){return $("#order-"+id).value;});
+      var uniq = vals.every(Boolean) && new Set(vals).size === ids.length;
+      var okorder = uniq && ids.every(function(id){return $("#order-"+id).value === expected[id];});
+      setFeedback("q24-feedback", !uniq ? "Назначьте каждому этапу уникальный номер от 1 до 5." : okorder ? "Верно. Этапы были показаны в случайном порядке, а проверка выполнена по идентификаторам шагов." : "Сначала обычно устанавливают CPU, RAM и M.2 на плату, затем монтируют плату в корпус и устанавливают видеокарту.", okorder);
       state.test.q24 = okorder; updateTestScore();
       return;
     }
-    if (d.checkShort !== undefined) {
-      var text = ($("#short-response").value || "").toLowerCase();
-      var checks = [
-        /сокет|socket/.test(text),
-        /ddr|памят/.test(text),
-        /форм.?фактор|размер|длин|габарит|корпус/.test(text),
-        /питан|мощност|кабел|разъ[её]м/.test(text),
-        /bios|uefi|прошив|поддержк/.test(text),
-        /m\.2|nvme|sata/.test(text)
-      ].filter(Boolean).length;
-      var pass = checks >= 2;
-      setFeedback("q25-feedback", pass ? "Ответ содержит " + checks + " разных тематических признака. Сверьте формулировку с чек-листом: сокет/поддержка CPU, поколение памяти, размеры и питание." : "Пока найдено меньше двух разных условий. Назовите, например, сокет и поколение DDR, или размеры корпуса и требования к питанию.", pass);
+    if (d.checkFrontPanel !== undefined) {
+      var panel = $("[data-front-panel]").filter(function(el){return el.checked;}).map(function(el){return el.dataset.frontPanel;});
+      var pass = panel.length === 2 && panel.slice().sort().join(",") === "pwr,reset";
+      setFeedback("q25-feedback", pass ? "Верно. PWR_SW и RESET_SW — кнопки корпуса, которые подключаются к F_PANEL. Расположение контактов сверяйте с руководством платы." : "Отметьте ровно два варианта: PWR_SW и RESET_SW. CPU_FAN предназначен для вентилятора, USB header — для портов USB.", pass);
       state.test.q25 = pass; updateTestScore();
       return;
     }
