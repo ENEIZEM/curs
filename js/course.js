@@ -2,7 +2,15 @@
   "use strict";
 
   var $ = function (selector, root) { return (root || document).querySelector(selector); };
-  var $$ = function (selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); };
+  var $ = function (selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); };
+  function shuffled(items) {
+    var result = items.slice();
+    for (var i = result.length - 1; i > 0; i -= 1) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = result[i]; result[i] = result[j]; result[j] = temp;
+    }
+    return result;
+  }
   var esc = function (value) {
     return String(value).replace(/[&<>"']/g, function (ch) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
@@ -16,7 +24,8 @@
     { title: "Подготовка", start: 12, count: 2, description: "Рабочее место и проверка деталей" },
     { title: "Сборка", start: 14, count: 5, description: "Установка и подключение компонентов" },
     { title: "Первый запуск", start: 19, count: 3, description: "POST, UEFI и диагностика" },
-    { title: "Проверка знаний", start: 22, count: 4, description: "Задания с автоматической проверкой" }
+    { title: "Проверка знаний", start: 22, count: 4, description: "Задания с автоматической проверкой" },
+    { title: "Мега-босс", start: 26, count: 1, description: "Интерактивная сборка компьютера" }
   ];
   var slides = [
     { title: "Сборка персонального компьютера", section: 0, intro: "Научимся понимать назначение комплектующих, проверять их совместимость и последовательно собирать компьютер.", task: "Начните с обзора курса. Затем переходите к целям обучения.", type: "intro" },
@@ -44,7 +53,8 @@
     { title: "Задание 1. Выбор ответа", section: 6, intro: "Проверьте ключевые понятия курса. Выберите один правильный вариант и прочитайте объяснение после проверки.", task: "Ответьте на вопрос о совместимости процессора и материнской платы.", type: "quiz-choice" },
     { title: "Задание 2. Сопоставление", section: 6, intro: "Компоненты выполняют разные функции. Для каждого элемента выберите подходящее описание.", task: "Сопоставьте все компоненты и их функции, затем нажмите «Проверить».", type: "quiz-match" },
     { title: "Задание 3. Порядок действий", section: 6, intro: "Последовательность сборки влияет на удобство и безопасность работы. Упорядочьте шаги так, чтобы сначала выполнить установку компонентов на плату, а затем монтаж в корпус.", task: "Укажите позицию каждого шага в правильной последовательности.", type: "quiz-order" },
-    { title: "Задание 4. Короткий ответ", section: 6, intro: "Последнее задание проверяет, можете ли вы самостоятельно назвать главные условия совместимости комплектующих.", task: "Введите не менее двух проверок, которые нужно выполнить до монтажа. Например, можно написать о сокете или типе памяти.", type: "quiz-short" }
+    { title: "Задание 4. Передняя панель корпуса", section: 6, intro: "Разъёмы передней панели легко перепутать с разъёмами вентиляторов и USB. Здесь важно определить именно сигналы кнопок корпуса.", task: "Отметьте два соединения кнопок корпуса на колодке F_PANEL.", type: "quiz-front-panel" },
+    { title: "Мега-босс: собери компьютер", section: 7, intro: "Пройдите полный цикл сборки: подберите совместимые комплектующие, установите их на схему и подключите кабели.", task: "Соберите компьютер по этапам и завершите проверку перед первым запуском.", type: "pc-build-boss" }
   ];
 
   var partInfo = {
@@ -57,7 +67,7 @@
   };
   var state = {
     at: 0, visited: {}, checklist: {}, preflight: {}, cable: {}, chosenPart: "board",
-    hotspot: "socket", installStep: 0, timelineStep: 0, test: {}, labScene: 0, labRoute: 0,
+    hotspot: "socket", installStep: 0, timelineStep: 0, test: {}, matchLayout: null, orderLayout: null, labScene: 0, labRoute: 0,
     labGate: false, animationShown: false
   };
   var labId = 0;
@@ -89,8 +99,7 @@
     var s = slides[i], sec = sections[s.section];
     return '<div class="lesson-kicker">' + esc(sec.title) + '</div>' +
       '<h1>' + esc(s.title) + '</h1>' +
-      '<p class="lesson-intro">' + esc(s.intro) + '</p>' +
-      '<div class="instruction"><strong>Что сделать на этом шаге</strong><p>' + esc(s.task) + '</p></div>' + body;
+      '<p class="lesson-intro">' + esc(s.intro) + '</p>' + body;
   }
 
   function option(value, text, selected) {
@@ -274,7 +283,7 @@
     $("#top-progress-fill").style.width = ((state.at + 1) / slides.length * 100) + "%";
     $("#top-progress-text").textContent = state.visited[state.at] ? "Урок открыт" : "Прогресс изучения";
     state.visited[state.at] = true;
-    $("#sidebar-count").textContent = Object.keys(state.visited).length + " из 26 уроков открыто";
+    $("#sidebar-count").textContent = Object.keys(state.visited).length + " из " + slides.length + " уроков открыто";
     $("#module-steps").innerHTML = sections.map(function (m, index) {
       var completed = state.at >= m.start + m.count;
       return '<button type="button" class="module-step ' + (index === s.section ? "active " : "") + (completed ? "completed" : "") + '" data-section="' + index + '" aria-current="' + (index === s.section ? "step" : "false") + '"><span class="step-index">' + (completed ? "✓" : (index + 1)) + '</span><span class="step-copy"><strong>' + esc(m.title) + '</strong><small>' + m.count + ' урока</small></span></button>';
@@ -500,7 +509,7 @@
   }
 
   function labFrame(title, intro, instruction, body) {
-    return '<div class="lesson-kicker">Лабораторная работа ' + labId + '</div><h1>' + esc(title) + '</h1><p class="lesson-intro">' + esc(intro) + '</p><div class="instruction"><strong>Что сделать на этом экране</strong><p>' + esc(instruction) + '</p></div>' + body;
+    return '<div class="lesson-kicker">Лабораторная работа ' + labId + '</div><h1>' + esc(title) + '</h1><p class="lesson-intro">' + esc(intro) + '</p>' + body;
   }
 
   function labContent(id, scene) {
